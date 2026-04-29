@@ -26,28 +26,6 @@ def readfile(file):
     print("Provisions:", provisions)
     print("Orders:", orders)
 
-    print("North West")
-
-    startR = 0  # start row
-    startC = 0  # start col
-    ans = 0
-    # loop runs until it reaches the bottom right corner
-    while (startR != len(cost_matrix) and startC != len(cost_matrix[0])):
-        # if demand is greater than supply
-        if (provisions[startR] <= orders[startC]):
-            ans += provisions[startR] * cost_matrix[startR][startC]
-            # subtract the value of supply from the demand
-            orders[startC] -= provisions[startR]
-            startR += 1
-        # if supply is greater than demand
-        else:
-            ans += orders[startC] * cost_matrix[startR][startC]
-            # subtract the value of demand from the supply
-            provisions[startR] -= orders[startC]
-            startC += 1
-
-    print("The initial feasible basic solution is ", ans)
-
     return path, numProvision, numOrders, cost_matrix, provisions, orders
 
 
