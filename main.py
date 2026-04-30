@@ -1,0 +1,237 @@
+from pathlib import Path
+
+
+def readfile(file):
+    """Read a transportation problem from src/Problems/ProblemX.txt."""
+    path = Path("src/Problems") / f"Problem{file}.txt"
+    with open(path, "r", encoding="utf-8") as f:
+        lines = [line.strip() for line in f.readlines() if line.strip()]
+
+    firstLine = lines[0].split()
+    numProvision = int(firstLine[0])
+    numOrders = int(firstLine[1])
+
+    cost_matrix = []
+    provisions = []
+
+    for i in range(1, numProvision + 1):
+        parts = lines[i].split()
+        row_costs = [int(x) for x in parts[:numOrders]]
+        cost_matrix.append(row_costs)
+        provisions.append(int(parts[-1]))
+
+    orders_line = lines[numProvision + 1].split()
+    orders = [int(x) for x in orders_line]
+
+    if sum(provisions) != sum(orders):
+        raise ValueError(
+            f"Unbalanced problem: total provisions={sum(provisions)}, total orders={sum(orders)}"
+        )
+
+    return path, numProvision, numOrders, cost_matrix, provisions, orders
+
+
+def format_value(value, width=8):
+    if value is None:
+        return "-".rjust(width)
+    return str(value).rjust(width)
+
+
+def display_cost_matrix(cost_matrix, provisions, orders):
+    """Display the cost matrix with provisions and orders."""
+    n = len(provisions)
+    m = len(orders)
+    width = 8
+
+    print("\nCOST MATRIX")
+    print("".ljust(width) + "".join(f"C{j+1}".rjust(width) for j in range(m)) + "Provision".rjust(width + 2))
+    for i in range(n):
+        row = f"P{i+1}".ljust(width)
+        row += "".join(format_value(cost_matrix[i][j], width) for j in range(m))
+        row += format_value(provisions[i], width + 2)
+        print(row)
+    print("Orders".ljust(width) + "".join(format_value(orders[j], width) for j in range(m)))
+
+
+def display_transportation(proposal, cost_matrix=None, title="TRANSPORTATION PROPOSAL"):
+    """Display a transportation proposal. If cost_matrix is provided, also show total cost."""
+    n = len(proposal)
+    m = len(proposal[0]) if n else 0
+    width = 8
+
+    print(f"\n{title}")
+    print("".ljust(width) + "".join(f"C{j+1}".rjust(width) for j in range(m)))
+    for i in range(n):
+        row = f"P{i+1}".ljust(width)
+        row += "".join(format_value(proposal[i][j], width) for j in range(m))
+        print(row)
+
+    if cost_matrix is not None:
+        print("Total Cost:", calculate_total_cost(proposal, cost_matrix))
+
+
+def calculate_total_cost(proposal, cost_matrix):
+    total_cost = 0
+    for i in range(len(proposal)):
+        for j in range(len(proposal[0])):
+            total_cost += proposal[i][j] * cost_matrix[i][j]
+    return total_cost
+
+
+def NorthWest(cost_matrix, provisions, orders):
+    print("\n================ NORTH-WEST ALGORITHM ================")
+    num_suppliers = len(provisions)
+    num_customers = len(orders)
+    row = 0
+    col = 0
+
+    prov_left = provisions.copy()
+    ord_left = orders.copy()
+    proposal = [[0 for _ in range(num_customers)] for _ in range(num_suppliers)]
+
+    while row < num_suppliers and col < num_customers:
+        allocated = min(prov_left[row], ord_left[col])
+        proposal[row][col] = allocated
+        print(f"Fill edge P{row+1}->C{col+1}: min({prov_left[row]}, {ord_left[col]}) = {allocated}")
+
+        prov_left[row] -= allocated
+        ord_left[col] -= allocated
+
+        if prov_left[row] == 0:
+            row += 1
+        if col < num_customers and ord_left[col] == 0:
+            col += 1
+
+    total_cost = calculate_total_cost(proposal, cost_matrix)
+    display_transportation(proposal, cost_matrix, "NORTH-WEST INITIAL PROPOSAL")
+    return proposal, total_cost
+
+
+def two_smallest(values):
+    """Return the two smallest values of a non-empty list."""
+    values_sorted = sorted(values)
+    if len(values_sorted) == 1:
+        return values_sorted[0], values_sorted[0]
+    return values_sorted[0], values_sorted[1]
+
+
+def compute_penalties(cost_matrix, active_rows, active_cols):
+    """Compute Balas-Hammer/Vogel penalties for active rows and columns."""
+    row_penalties = {}
+    col_penalties = {}
+
+    for i in active_rows:
+        costs = [cost_matrix[i][j] for j in active_cols]
+        smallest, second_smallest = two_smallest(costs)
+        row_penalties[i] = second_smallest - smallest
+
+    for j in active_cols:
+        costs = [cost_matrix[i][j] for i in active_rows]
+        smallest, second_smallest = two_smallest(costs)
+        col_penalties[j] = second_smallest - smallest
+
+    return row_penalties, col_penalties
+
+
+def display_penalties(row_penalties, col_penalties):
+    print("\nPenalties:")
+    print("Rows   :", "  ".join(f"P{i+1}={p}" for i, p in row_penalties.items()))
+    print("Columns:", "  ".join(f"C{j+1}={p}" for j, p in col_penalties.items()))
+
+
+def BalasHammer(cost_matrix, provisions, orders):
+    """Balas-Hammer algorithm, also called Vogel approximation method."""
+    print("\n================ BALAS-HAMMER ALGORITHM ================")
+    n = len(provisions)
+    m = len(orders)
+
+    prov_left = provisions.copy()
+    ord_left = orders.copy()
+    proposal = [[0 for _ in range(m)] for _ in range(n)]
+
+    active_rows = set(range(n))
+    active_cols = set(range(m))
+    step = 1
+
+    while active_rows and active_cols:
+        print(f"\n--- Step {step} ---")
+        row_penalties, col_penalties = compute_penalties(cost_matrix, active_rows, active_cols)
+        display_penalties(row_penalties, col_penalties)
+
+        max_row_penalty = max(row_penalties.values()) if row_penalties else -1
+        max_col_penalty = max(col_penalties.values()) if col_penalties else -1
+        max_penalty = max(max_row_penalty, max_col_penalty)
+
+        candidate_rows = [i for i, p in row_penalties.items() if p == max_penalty]
+        candidate_cols = [j for j, p in col_penalties.items() if p == max_penalty]
+
+        print("Maximum penalty:", max_penalty)
+        if candidate_rows:
+            print("Rows with maximum penalty:", ", ".join(f"P{i+1}" for i in candidate_rows))
+        if candidate_cols:
+            print("Columns with maximum penalty:", ", ".join(f"C{j+1}" for j in candidate_cols))
+
+        # Choose the row/column with the cheapest available cell.
+        candidates = []
+        for i in candidate_rows:
+            min_cost = min(cost_matrix[i][j] for j in active_cols)
+            candidates.append((min_cost, "row", i))
+        for j in candidate_cols:
+            min_cost = min(cost_matrix[i][j] for i in active_rows)
+            candidates.append((min_cost, "col", j))
+
+        _, chosen_type, chosen_index = min(candidates, key=lambda x: (x[0], x[1], x[2]))
+
+        if chosen_type == "row":
+            i = chosen_index
+            j = min(active_cols, key=lambda col: (cost_matrix[i][col], col))
+            print(f"Chosen line: P{i+1}; cheapest edge is P{i+1}->C{j+1} with cost {cost_matrix[i][j]}")
+        else:
+            j = chosen_index
+            i = min(active_rows, key=lambda row: (cost_matrix[row][j], row))
+            print(f"Chosen column: C{j+1}; cheapest edge is P{i+1}->C{j+1} with cost {cost_matrix[i][j]}")
+
+        allocated = min(prov_left[i], ord_left[j])
+        proposal[i][j] = allocated
+        print(f"Fill edge P{i+1}->C{j+1}: min({prov_left[i]}, {ord_left[j]}) = {allocated}")
+
+        prov_left[i] -= allocated
+        ord_left[j] -= allocated
+
+        if prov_left[i] == 0 and i in active_rows:
+            active_rows.remove(i)
+            print(f"P{i+1} is satisfied and removed.")
+        if ord_left[j] == 0 and j in active_cols:
+            active_cols.remove(j)
+            print(f"C{j+1} is satisfied and removed.")
+
+        step += 1
+
+    total_cost = calculate_total_cost(proposal, cost_matrix)
+    display_transportation(proposal, cost_matrix, "BALAS-HAMMER INITIAL PROPOSAL")
+    return proposal, total_cost
+
+
+def choose_problem_and_method():
+    problem = input("Choose problem number (1-12): ").strip()
+    method = input("Choose initial method (nw/bh): ").strip().lower()
+    return problem, method
+
+
+if __name__ == "__main__":
+    problem, method = choose_problem_and_method()
+    path, n, m, cost_matrix, provisions, orders = readfile(problem)
+
+    print(f"\nLoaded file: {path}")
+    print(f"Suppliers (n): {n}")
+    print(f"Customers (m): {m}")
+    print(f"Total provisions = {sum(provisions)} | Total orders = {sum(orders)}")
+
+    display_cost_matrix(cost_matrix, provisions, orders)
+
+    if method == "nw":
+        NorthWest(cost_matrix, provisions, orders)
+    elif method == "bh":
+        BalasHammer(cost_matrix, provisions, orders)
+    else:
+        print("Unknown method. Use 'nw' or 'bh'.")
