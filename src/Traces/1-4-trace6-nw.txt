@@ -1,0 +1,14 @@
+================ NORTH-WEST ALGORITHM ================
+Fill edge P1->C1: min(60, 50) = 50
+Fill edge P1->C2: min(10, 75) = 10
+Fill edge P2->C2: min(30, 65) = 30
+Fill edge P3->C2: min(90, 35) = 35
+Fill edge P3->C3: min(55, 30) = 30
+Fill edge P3->C4: min(25, 25) = 25
+
+NORTH-WEST INITIAL PROPOSAL
+              C1      C2      C3      C4
+P1            50      10       0       0
+P2             0      30       0       0
+P3             0      35      30      25
+Total Cost: 3035

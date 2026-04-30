@@ -212,14 +212,16 @@ def BalasHammer(cost_matrix, provisions, orders):
     return proposal, total_cost
 
 
-def choose_problem_and_method():
+def choose_problem():
     problem = input("Choose problem number (1-12): ").strip()
+    return problem
+
+def choose_method():
     method = input("Choose initial method (nw/bh): ").strip().lower()
-    return problem, method
+    return method
 
-
-if __name__ == "__main__":
-    problem, method = choose_problem_and_method()
+def main_menu():
+    problem = choose_problem()
     path, n, m, cost_matrix, provisions, orders = readfile(problem)
 
     print(f"\nLoaded file: {path}")
@@ -228,10 +230,18 @@ if __name__ == "__main__":
     print(f"Total provisions = {sum(provisions)} | Total orders = {sum(orders)}")
 
     display_cost_matrix(cost_matrix, provisions, orders)
-
+    method = choose_method()
     if method == "nw":
         NorthWest(cost_matrix, provisions, orders)
     elif method == "bh":
         BalasHammer(cost_matrix, provisions, orders)
     else:
         print("Unknown method. Use 'nw' or 'bh'.")
+
+
+if __name__ == "__main__":
+    main_menu()
+
+
+
+

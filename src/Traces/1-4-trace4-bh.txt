@@ -1,0 +1,43 @@
+================ BALAS-HAMMER ALGORITHM ================
+
+--- Step 1 ---
+
+Penalties:
+Rows   : P1=29  P2=29
+Columns: C1=29  C2=29
+Maximum penalty: 29
+Rows with maximum penalty: P1, P2
+Columns with maximum penalty: C1, C2
+Chosen column: C1; cheapest edge is P2->C1 with cost 1
+Fill edge P2->C1: min(500, 100) = 100
+C1 is satisfied and removed.
+
+--- Step 2 ---
+
+Penalties:
+Rows   : P1=0  P2=0
+Columns: C2=29
+Maximum penalty: 29
+Columns with maximum penalty: C2
+Chosen column: C2; cheapest edge is P1->C2 with cost 1
+Fill edge P1->C2: min(600, 1000) = 600
+P1 is satisfied and removed.
+
+--- Step 3 ---
+
+Penalties:
+Rows   : P2=0
+Columns: C2=0
+Maximum penalty: 0
+Rows with maximum penalty: P2
+Columns with maximum penalty: C2
+Chosen column: C2; cheapest edge is P2->C2 with cost 30
+Fill edge P2->C2: min(400, 400) = 400
+P2 is satisfied and removed.
+C2 is satisfied and removed.
+
+BALAS-HAMMER INITIAL PROPOSAL
+              C1      C2
+P1             0     600
+P2           100     400
+Total Cost: 12700

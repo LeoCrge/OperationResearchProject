@@ -1,0 +1,54 @@
+================ NORTH-WEST ALGORITHM ================
+Fill edge P1->C1: min(10, 120) = 10
+Fill edge P2->C1: min(20, 110) = 20
+Fill edge P3->C1: min(30, 90) = 30
+Fill edge P4->C1: min(40, 60) = 40
+Fill edge P5->C1: min(50, 20) = 20
+Fill edge P5->C2: min(30, 140) = 30
+Fill edge P6->C2: min(60, 110) = 60
+Fill edge P7->C2: min(70, 50) = 50
+Fill edge P7->C3: min(20, 160) = 20
+Fill edge P8->C3: min(80, 140) = 80
+Fill edge P9->C3: min(90, 60) = 60
+Fill edge P9->C4: min(30, 180) = 30
+Fill edge P10->C4: min(100, 150) = 100
+Fill edge P11->C4: min(110, 50) = 50
+Fill edge P11->C5: min(60, 200) = 60
+Fill edge P12->C5: min(120, 140) = 120
+Fill edge P13->C5: min(130, 20) = 20
+Fill edge P13->C6: min(110, 220) = 110
+Fill edge P14->C6: min(140, 110) = 110
+Fill edge P14->C7: min(30, 240) = 30
+Fill edge P15->C7: min(150, 210) = 150
+Fill edge P16->C7: min(160, 60) = 60
+Fill edge P16->C8: min(100, 260) = 100
+Fill edge P17->C8: min(170, 160) = 160
+Fill edge P17->C9: min(10, 280) = 10
+Fill edge P18->C9: min(180, 270) = 180
+Fill edge P19->C9: min(190, 90) = 90
+Fill edge P19->C10: min(100, 300) = 100
+Fill edge P20->C10: min(200, 200) = 200
+
+NORTH-WEST INITIAL PROPOSAL
+              C1      C2      C3      C4      C5      C6      C7      C8      C9     C10
+P1            10       0       0       0       0       0       0       0       0       0
+P2            20       0       0       0       0       0       0       0       0       0
+P3            30       0       0       0       0       0       0       0       0       0
+P4            40       0       0       0       0       0       0       0       0       0
+P5            20      30       0       0       0       0       0       0       0       0
+P6             0      60       0       0       0       0       0       0       0       0
+P7             0      50      20       0       0       0       0       0       0       0
+P8             0       0      80       0       0       0       0       0       0       0
+P9             0       0      60      30       0       0       0       0       0       0
+P10            0       0       0     100       0       0       0       0       0       0
+P11            0       0       0      50      60       0       0       0       0       0
+P12            0       0       0       0     120       0       0       0       0       0
+P13            0       0       0       0      20     110       0       0       0       0
+P14            0       0       0       0       0     110      30       0       0       0
+P15            0       0       0       0       0       0     150       0       0       0
+P16            0       0       0       0       0       0      60     100       0       0
+P17            0       0       0       0       0       0       0     160      10       0
+P18            0       0       0       0       0       0       0       0     180       0
+P19            0       0       0       0       0       0       0       0      90     100
+P20            0       0       0       0       0       0       0       0       0     200
+Total Cost: 279170

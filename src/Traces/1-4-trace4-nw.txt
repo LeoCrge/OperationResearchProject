@@ -1,0 +1,10 @@
+================ NORTH-WEST ALGORITHM ================
+Fill edge P1->C1: min(600, 100) = 100
+Fill edge P1->C2: min(500, 1000) = 500
+Fill edge P2->C2: min(500, 500) = 500
+
+NORTH-WEST INITIAL PROPOSAL
+              C1      C2
+P1           100     500
+P2             0     500
+Total Cost: 18500

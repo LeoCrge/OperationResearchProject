@@ -1,0 +1,93 @@
+================ BALAS-HAMMER ALGORITHM ================
+
+--- Step 1 ---
+
+Penalties:
+Rows   : P1=5  P2=8  P3=1  P4=4  P5=37  P6=22  P7=18
+Columns: C1=1  C2=2  C3=1
+Maximum penalty: 37
+Rows with maximum penalty: P5
+Chosen line: P5; cheapest edge is P5->C3 with cost 3
+Fill edge P5->C3: min(100, 100) = 100
+P5 is satisfied and removed.
+C3 is satisfied and removed.
+
+--- Step 2 ---
+
+Penalties:
+Rows   : P1=10  P2=40  P3=1  P4=4  P6=33  P7=46
+Columns: C1=1  C2=2
+Maximum penalty: 46
+Rows with maximum penalty: P7
+Chosen line: P7; cheapest edge is P7->C2 with cost 4
+Fill edge P7->C2: min(100, 200) = 100
+P7 is satisfied and removed.
+
+--- Step 3 ---
+
+Penalties:
+Rows   : P1=10  P2=40  P3=1  P4=4  P6=33
+Columns: C1=1  C2=8
+Maximum penalty: 40
+Rows with maximum penalty: P2
+Chosen line: P2; cheapest edge is P2->C1 with cost 10
+Fill edge P2->C1: min(100, 400) = 100
+P2 is satisfied and removed.
+
+--- Step 4 ---
+
+Penalties:
+Rows   : P1=10  P3=1  P4=4  P6=33
+Columns: C1=1  C2=8
+Maximum penalty: 33
+Rows with maximum penalty: P6
+Chosen line: P6; cheapest edge is P6->C1 with cost 5
+Fill edge P6->C1: min(100, 300) = 100
+P6 is satisfied and removed.
+
+--- Step 5 ---
+
+Penalties:
+Rows   : P1=10  P3=1  P4=4
+Columns: C1=3  C2=8
+Maximum penalty: 10
+Rows with maximum penalty: P1
+Chosen line: P1; cheapest edge is P1->C2 with cost 20
+Fill edge P1->C2: min(100, 100) = 100
+P1 is satisfied and removed.
+C2 is satisfied and removed.
+
+--- Step 6 ---
+
+Penalties:
+Rows   : P3=0  P4=0
+Columns: C1=3
+Maximum penalty: 3
+Columns with maximum penalty: C1
+Chosen column: C1; cheapest edge is P4->C1 with cost 6
+Fill edge P4->C1: min(100, 200) = 100
+P4 is satisfied and removed.
+
+--- Step 7 ---
+
+Penalties:
+Rows   : P3=0
+Columns: C1=0
+Maximum penalty: 0
+Rows with maximum penalty: P3
+Columns with maximum penalty: C1
+Chosen column: C1; cheapest edge is P3->C1 with cost 9
+Fill edge P3->C1: min(100, 100) = 100
+P3 is satisfied and removed.
+C1 is satisfied and removed.
+
+BALAS-HAMMER INITIAL PROPOSAL
+              C1      C2      C3
+P1             0     100       0
+P2           100       0       0
+P3           100       0       0
+P4           100       0       0
+P5             0       0     100
+P6           100       0       0
+P7             0     100       0
+Total Cost: 5700

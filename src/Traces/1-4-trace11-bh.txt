@@ -1,0 +1,346 @@
+================ BALAS-HAMMER ALGORITHM ================
+
+--- Step 1 ---
+
+Penalties:
+Rows   : P1=1  P2=1  P3=1  P4=1  P5=0  P6=1  P7=1  P8=1  P9=1  P10=1  P11=1  P12=1  P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C1=10  C2=10  C3=10  C4=10  C5=10  C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C1, C2, C3, C4, C5, C6, C7, C8, C9, C10
+Chosen column: C1; cheapest edge is P1->C1 with cost 1
+Fill edge P1->C1: min(10, 120) = 10
+P1 is satisfied and removed.
+
+--- Step 2 ---
+
+Penalties:
+Rows   : P2=1  P3=1  P4=1  P5=0  P6=1  P7=1  P8=1  P9=1  P10=1  P11=1  P12=1  P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C1=10  C2=10  C3=10  C4=10  C5=10  C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C1, C2, C3, C4, C5, C6, C7, C8, C9, C10
+Chosen column: C1; cheapest edge is P2->C1 with cost 11
+Fill edge P2->C1: min(20, 110) = 20
+P2 is satisfied and removed.
+
+--- Step 3 ---
+
+Penalties:
+Rows   : P3=1  P4=1  P5=0  P6=1  P7=1  P8=1  P9=1  P10=1  P11=1  P12=1  P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C1=10  C2=10  C3=10  C4=10  C5=10  C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C1, C2, C3, C4, C5, C6, C7, C8, C9, C10
+Chosen column: C1; cheapest edge is P3->C1 with cost 21
+Fill edge P3->C1: min(30, 90) = 30
+P3 is satisfied and removed.
+
+--- Step 4 ---
+
+Penalties:
+Rows   : P4=1  P5=0  P6=1  P7=1  P8=1  P9=1  P10=1  P11=1  P12=1  P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C1=10  C2=9  C3=10  C4=10  C5=10  C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C1, C3, C4, C5, C6, C7, C8, C9, C10
+Chosen column: C1; cheapest edge is P4->C1 with cost 31
+Fill edge P4->C1: min(40, 60) = 40
+P4 is satisfied and removed.
+
+--- Step 5 ---
+
+Penalties:
+Rows   : P5=0  P6=1  P7=1  P8=1  P9=1  P10=1  P11=1  P12=1  P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C1=10  C2=11  C3=10  C4=10  C5=10  C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 11
+Columns with maximum penalty: C2
+Chosen column: C2; cheapest edge is P5->C2 with cost 41
+Fill edge P5->C2: min(50, 140) = 50
+P5 is satisfied and removed.
+
+--- Step 6 ---
+
+Penalties:
+Rows   : P6=1  P7=1  P8=1  P9=1  P10=1  P11=1  P12=1  P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C1=10  C2=10  C3=10  C4=10  C5=10  C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C1, C2, C3, C4, C5, C6, C7, C8, C9, C10
+Chosen column: C1; cheapest edge is P6->C1 with cost 51
+Fill edge P6->C1: min(60, 20) = 20
+C1 is satisfied and removed.
+
+--- Step 7 ---
+
+Penalties:
+Rows   : P6=1  P7=1  P8=1  P9=1  P10=1  P11=1  P12=1  P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C2=10  C3=10  C4=10  C5=10  C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C2, C3, C4, C5, C6, C7, C8, C9, C10
+Chosen column: C2; cheapest edge is P6->C2 with cost 52
+Fill edge P6->C2: min(40, 90) = 40
+P6 is satisfied and removed.
+
+--- Step 8 ---
+
+Penalties:
+Rows   : P7=1  P8=1  P9=1  P10=1  P11=1  P12=1  P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C2=10  C3=10  C4=10  C5=10  C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C2, C3, C4, C5, C6, C7, C8, C9, C10
+Chosen column: C2; cheapest edge is P7->C2 with cost 62
+Fill edge P7->C2: min(70, 50) = 50
+C2 is satisfied and removed.
+
+--- Step 9 ---
+
+Penalties:
+Rows   : P7=1  P8=1  P9=1  P10=1  P11=1  P12=1  P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C3=10  C4=10  C5=10  C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C3, C4, C5, C6, C7, C8, C9, C10
+Chosen column: C3; cheapest edge is P7->C3 with cost 63
+Fill edge P7->C3: min(20, 160) = 20
+P7 is satisfied and removed.
+
+--- Step 10 ---
+
+Penalties:
+Rows   : P8=1  P9=1  P10=1  P11=1  P12=1  P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C3=10  C4=10  C5=10  C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C3, C4, C5, C6, C7, C8, C9, C10
+Chosen column: C3; cheapest edge is P8->C3 with cost 73
+Fill edge P8->C3: min(80, 140) = 80
+P8 is satisfied and removed.
+
+--- Step 11 ---
+
+Penalties:
+Rows   : P9=1  P10=1  P11=1  P12=1  P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C3=10  C4=10  C5=10  C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C3, C4, C5, C6, C7, C8, C9, C10
+Chosen column: C3; cheapest edge is P9->C3 with cost 83
+Fill edge P9->C3: min(90, 60) = 60
+C3 is satisfied and removed.
+
+--- Step 12 ---
+
+Penalties:
+Rows   : P9=1  P10=1  P11=1  P12=1  P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C4=10  C5=10  C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C4, C5, C6, C7, C8, C9, C10
+Chosen column: C4; cheapest edge is P9->C4 with cost 84
+Fill edge P9->C4: min(30, 180) = 30
+P9 is satisfied and removed.
+
+--- Step 13 ---
+
+Penalties:
+Rows   : P10=1  P11=1  P12=1  P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C4=10  C5=10  C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C4, C5, C6, C7, C8, C9, C10
+Chosen column: C4; cheapest edge is P10->C4 with cost 94
+Fill edge P10->C4: min(100, 150) = 100
+P10 is satisfied and removed.
+
+--- Step 14 ---
+
+Penalties:
+Rows   : P11=1  P12=1  P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C4=10  C5=10  C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C4, C5, C6, C7, C8, C9, C10
+Chosen column: C4; cheapest edge is P11->C4 with cost 104
+Fill edge P11->C4: min(110, 50) = 50
+C4 is satisfied and removed.
+
+--- Step 15 ---
+
+Penalties:
+Rows   : P11=1  P12=1  P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C5=10  C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C5, C6, C7, C8, C9, C10
+Chosen column: C5; cheapest edge is P11->C5 with cost 105
+Fill edge P11->C5: min(60, 200) = 60
+P11 is satisfied and removed.
+
+--- Step 16 ---
+
+Penalties:
+Rows   : P12=1  P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C5=10  C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C5, C6, C7, C8, C9, C10
+Chosen column: C5; cheapest edge is P12->C5 with cost 115
+Fill edge P12->C5: min(120, 140) = 120
+P12 is satisfied and removed.
+
+--- Step 17 ---
+
+Penalties:
+Rows   : P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C5=10  C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C5, C6, C7, C8, C9, C10
+Chosen column: C5; cheapest edge is P13->C5 with cost 125
+Fill edge P13->C5: min(130, 20) = 20
+C5 is satisfied and removed.
+
+--- Step 18 ---
+
+Penalties:
+Rows   : P13=1  P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C6, C7, C8, C9, C10
+Chosen column: C6; cheapest edge is P13->C6 with cost 126
+Fill edge P13->C6: min(110, 220) = 110
+P13 is satisfied and removed.
+
+--- Step 19 ---
+
+Penalties:
+Rows   : P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C6=10  C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C6, C7, C8, C9, C10
+Chosen column: C6; cheapest edge is P14->C6 with cost 136
+Fill edge P14->C6: min(140, 110) = 110
+C6 is satisfied and removed.
+
+--- Step 20 ---
+
+Penalties:
+Rows   : P14=1  P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C7, C8, C9, C10
+Chosen column: C7; cheapest edge is P14->C7 with cost 137
+Fill edge P14->C7: min(30, 240) = 30
+P14 is satisfied and removed.
+
+--- Step 21 ---
+
+Penalties:
+Rows   : P15=1  P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C7, C8, C9, C10
+Chosen column: C7; cheapest edge is P15->C7 with cost 147
+Fill edge P15->C7: min(150, 210) = 150
+P15 is satisfied and removed.
+
+--- Step 22 ---
+
+Penalties:
+Rows   : P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C7=10  C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C7, C8, C9, C10
+Chosen column: C7; cheapest edge is P16->C7 with cost 157
+Fill edge P16->C7: min(160, 60) = 60
+C7 is satisfied and removed.
+
+--- Step 23 ---
+
+Penalties:
+Rows   : P16=1  P17=1  P18=1  P19=1  P20=1
+Columns: C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C8, C9, C10
+Chosen column: C8; cheapest edge is P16->C8 with cost 158
+Fill edge P16->C8: min(100, 260) = 100
+P16 is satisfied and removed.
+
+--- Step 24 ---
+
+Penalties:
+Rows   : P17=1  P18=1  P19=1  P20=1
+Columns: C8=10  C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C8, C9, C10
+Chosen column: C8; cheapest edge is P17->C8 with cost 168
+Fill edge P17->C8: min(170, 160) = 160
+C8 is satisfied and removed.
+
+--- Step 25 ---
+
+Penalties:
+Rows   : P17=1  P18=1  P19=1  P20=1
+Columns: C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C9, C10
+Chosen column: C9; cheapest edge is P17->C9 with cost 169
+Fill edge P17->C9: min(10, 280) = 10
+P17 is satisfied and removed.
+
+--- Step 26 ---
+
+Penalties:
+Rows   : P18=1  P19=1  P20=1
+Columns: C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C9, C10
+Chosen column: C9; cheapest edge is P18->C9 with cost 179
+Fill edge P18->C9: min(180, 270) = 180
+P18 is satisfied and removed.
+
+--- Step 27 ---
+
+Penalties:
+Rows   : P19=1  P20=1
+Columns: C9=10  C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C9, C10
+Chosen column: C9; cheapest edge is P19->C9 with cost 189
+Fill edge P19->C9: min(190, 90) = 90
+C9 is satisfied and removed.
+
+--- Step 28 ---
+
+Penalties:
+Rows   : P19=0  P20=0
+Columns: C10=10
+Maximum penalty: 10
+Columns with maximum penalty: C10
+Chosen column: C10; cheapest edge is P19->C10 with cost 190
+Fill edge P19->C10: min(100, 300) = 100
+P19 is satisfied and removed.
+
+--- Step 29 ---
+
+Penalties:
+Rows   : P20=0
+Columns: C10=0
+Maximum penalty: 0
+Rows with maximum penalty: P20
+Columns with maximum penalty: C10
+Chosen column: C10; cheapest edge is P20->C10 with cost 200
+Fill edge P20->C10: min(200, 200) = 200
+P20 is satisfied and removed.
+C10 is satisfied and removed.
+
+BALAS-HAMMER INITIAL PROPOSAL
+              C1      C2      C3      C4      C5      C6      C7      C8      C9     C10
+P1            10       0       0       0       0       0       0       0       0       0
+P2            20       0       0       0       0       0       0       0       0       0
+P3            30       0       0       0       0       0       0       0       0       0
+P4            40       0       0       0       0       0       0       0       0       0
+P5             0      50       0       0       0       0       0       0       0       0
+P6            20      40       0       0       0       0       0       0       0       0
+P7             0      50      20       0       0       0       0       0       0       0
+P8             0       0      80       0       0       0       0       0       0       0
+P9             0       0      60      30       0       0       0       0       0       0
+P10            0       0       0     100       0       0       0       0       0       0
+P11            0       0       0      50      60       0       0       0       0       0
+P12            0       0       0       0     120       0       0       0       0       0
+P13            0       0       0       0      20     110       0       0       0       0
+P14            0       0       0       0       0     110      30       0       0       0
+P15            0       0       0       0       0       0     150       0       0       0
+P16            0       0       0       0       0       0      60     100       0       0
+P17            0       0       0       0       0       0       0     160      10       0
+P18            0       0       0       0       0       0       0       0     180       0
+P19            0       0       0       0       0       0       0       0      90     100
+P20            0       0       0       0       0       0       0       0       0     200
+Total Cost: 279150

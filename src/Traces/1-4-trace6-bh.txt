@@ -1,0 +1,66 @@
+================ BALAS-HAMMER ALGORITHM ================
+
+--- Step 1 ---
+
+Penalties:
+Rows   : P1=0  P2=1  P3=1
+Columns: C1=6  C2=4  C3=5  C4=8
+Maximum penalty: 8
+Columns with maximum penalty: C4
+Chosen column: C4; cheapest edge is P1->C4 with cost 10
+Fill edge P1->C4: min(60, 25) = 25
+C4 is satisfied and removed.
+
+--- Step 2 ---
+
+Penalties:
+Rows   : P1=1  P2=1  P3=1
+Columns: C1=6  C2=4  C3=5
+Maximum penalty: 6
+Columns with maximum penalty: C1
+Chosen column: C1; cheapest edge is P1->C1 with cost 11
+Fill edge P1->C1: min(35, 50) = 35
+P1 is satisfied and removed.
+
+--- Step 3 ---
+
+Penalties:
+Rows   : P2=1  P3=1
+Columns: C1=2  C2=5  C3=5
+Maximum penalty: 5
+Columns with maximum penalty: C2, C3
+Chosen column: C3; cheapest edge is P2->C3 with cost 15
+Fill edge P2->C3: min(30, 30) = 30
+P2 is satisfied and removed.
+C3 is satisfied and removed.
+
+--- Step 4 ---
+
+Penalties:
+Rows   : P3=2
+Columns: C1=0  C2=0
+Maximum penalty: 2
+Rows with maximum penalty: P3
+Chosen line: P3; cheapest edge is P3->C1 with cost 19
+Fill edge P3->C1: min(90, 15) = 15
+C1 is satisfied and removed.
+
+--- Step 5 ---
+
+Penalties:
+Rows   : P3=0
+Columns: C2=0
+Maximum penalty: 0
+Rows with maximum penalty: P3
+Columns with maximum penalty: C2
+Chosen column: C2; cheapest edge is P3->C2 with cost 21
+Fill edge P3->C2: min(75, 75) = 75
+P3 is satisfied and removed.
+C2 is satisfied and removed.
+
+BALAS-HAMMER INITIAL PROPOSAL
+              C1      C2      C3      C4
+P1            35       0       0      25
+P2             0       0      30       0
+P3            15      75       0       0
+Total Cost: 2945
