@@ -48,11 +48,14 @@ def display_cost_matrix(cost_matrix, provisions, orders):
     for i in range(n):
         row = f"P{i+1}".ljust(width)
         row += "".join(format_value(cost_matrix[i][j], width) for j in range(m))
+        // iterate through each [j] in the list [i] so for the row check every elem
         row += format_value(provisions[i], width + 2)
+        //lastly print the provisions which is the last elem that was previously obtained when reading the files
         print(row)
+        //finish printing it 
     print("Orders".ljust(width) + "".join(format_value(orders[j], width) for j in range(m)))
 
-
+// later part when user ask either bh or nw
 def display_transportation(proposal, cost_matrix=None, title="TRANSPORTATION PROPOSAL"):
     """Display a transportation proposal. If cost_matrix is provided, also show total cost."""
     n = len(proposal)
@@ -116,13 +119,16 @@ def two_smallest(values):
 
 
 def compute_penalties(cost_matrix, active_rows, active_cols):
-    """Compute Balas-Hammer/Vogel penalties for active rows and columns."""
+    """Compute Balas-Hammer/"""
     row_penalties = {}
     col_penalties = {}
 
     for i in active_rows:
         costs = [cost_matrix[i][j] for j in active_cols]
         smallest, second_smallest = two_smallest(costs)
+        // redundance why did i implement it before hand to calculate the row penalty directly there
+        // i should have ? maybe implement it in it ?
+        // have to see that later on 
         row_penalties[i] = second_smallest - smallest
 
     for j in active_cols:
@@ -138,9 +144,18 @@ def display_penalties(row_penalties, col_penalties):
     print("Rows   :", "  ".join(f"P{i+1}={p}" for i, p in row_penalties.items()))
     print("Columns:", "  ".join(f"C{j+1}={p}" for j, p in col_penalties.items()))
 
+# recuperer case utilise dans solutions 
+def get_basic_cells(proposal):
+    basic_cells = []
+    for i in range(len(proposal)):
+        for j in range(len(proposal[0])):
+            if proposal[i][j] > 0:
+                basic_cells.append((i, j))
+    return basic_cells
+
 
 def BalasHammer(cost_matrix, provisions, orders):
-    """Balas-Hammer algorithm, also called Vogel approximation method."""
+    """Balas-Hammer algorithm, """
     print("\n================ BALAS-HAMMER ALGORITHM ================")
     n = len(provisions)
     m = len(orders)
@@ -212,36 +227,48 @@ def BalasHammer(cost_matrix, provisions, orders):
     return proposal, total_cost
 
 
-def choose_problem():
+def choose_problem_and_method():
     problem = input("Choose problem number (1-12): ").strip()
-    return problem
-
-def choose_method():
     method = input("Choose initial method (nw/bh): ").strip().lower()
-    return method
+    return problem, method
 
-def main_menu():
-    problem = choose_problem()
+
+if __name__ == "__main__":
+    problem, method = choose_problem_and_method()
+    // problem method initiated because we return the method and the problem
+    // the file will have as an argument the value return by method ChsePrblmMethod which is the user input 
+    // if we chose 6 the readfile takes 6 
     path, n, m, cost_matrix, provisions, orders = readfile(problem)
-
+    // so we need multiple initialization to get the return argument of the function that we implement hence the multiple argument initiated
     print(f"\nLoaded file: {path}")
     print(f"Suppliers (n): {n}")
     print(f"Customers (m): {m}")
     print(f"Total provisions = {sum(provisions)} | Total orders = {sum(orders)}")
 
     display_cost_matrix(cost_matrix, provisions, orders)
-    method = choose_method()
+
     if method == "nw":
         NorthWest(cost_matrix, provisions, orders)
     elif method == "bh":
         BalasHammer(cost_matrix, provisions, orders)
     else:
-        print("Unknown method. Use 'nw' or 'bh'.")
+        print("Unknown method buddy")
+        exit()
 
+    basic_cells = get_basic_cells(proposal) 
+    #return the cells that are fulfilled after works of algo
 
-if __name__ == "__main__":
-    main_menu()
+    print("\nBASIC CELLS")
+    print([(f"P{i+1}", f"C{j+1}") for i, j in basic_cells])
 
+    expected = n + m - 1 
 
+    print(f"Number of basic cells: {len(basic_cells)}")
+    print(f"Expected number for a valid base: n + m - 1 = {n} + {m} - 1 = {expected}")
 
-
+    if len(basic_cells) == expected:
+        print("correct number of basic cells.")
+    elif len(basic_cells) < expected:
+        print("Degenerate solution")
+    else:
+        print("too many basic cells, possible cycle.")
