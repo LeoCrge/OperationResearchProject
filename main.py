@@ -1,5 +1,5 @@
 from pathlib import Path
-
+from collections import deque
 
 def readfile(file):
     """Read a transportation problem from src/Problems/ProblemX.txt."""
@@ -306,11 +306,12 @@ def choose_problem_and_method():
 
 if __name__ == "__main__":
     problem, method = choose_problem_and_method()
-    // problem method initiated because we return the method and the problem
-    // the file will have as an argument the value return by method ChsePrblmMethod which is the user input 
-    // if we chose 6 the readfile takes 6 
+    """ problem method initiated because we return the method and the problem
+     the file will have as an argument the value return by method ChsePrblmMethod which is the user input 
+     if we chose 6 the readfile takes 6 
     path, n, m, cost_matrix, provisions, orders = readfile(problem)
-    // so we need multiple initialization to get the return argument of the function that we implement hence the multiple argument initiated
+    so we need multiple initialization to get the return argument of the function that we implement hence the multiple argument initiated
+    """
     print(f"\nLoaded file: {path}")
     print(f"Suppliers (n): {n}")
     print(f"Customers (m): {m}")
