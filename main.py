@@ -1,3 +1,4 @@
+from contextlib import nullcontext
 from pathlib import Path
 from collections import deque
 
@@ -256,7 +257,8 @@ def breadthfs(matrix):
     queue = deque()
     visited[0] = True
     queue.append((0,-1))
-
+    parent_list = [-1]*total_nodes
+    cycle=[]
     while queue:
         node, parent = queue.popleft()
 
@@ -269,11 +271,12 @@ def breadthfs(matrix):
 
         # If it's row node
         if node < n:
-            for j in range(m): #yes sir just m because you check every row but can miss one 
+            for j in range(m): #yes sir just m because you check every row but can miss one
                 if matrix[node][j] != 0:
                     child = n + j  # column node
                     if not visited[child]:
                         visited[child] = True
+                        parent_list[child] = node
                         queue.append((child, node))
                     elif child !=parent:
                         has_cycle = True
@@ -286,13 +289,37 @@ def breadthfs(matrix):
                     child = i  # row node
                     if not visited[child]:
                         visited[child] = True
+                        parent_list[child] = node
                         queue.append((child, node))
                     elif child !=parent:
-                        has_cycle = True
+                        if not cycle : #we want to only check for a single cycle no need for 2
+                            # we want the cycle instead of just knowing that there's one
+                            path_from_node = []
+                            path_from_child = []
+                            temp_node = node
+                            temp_child = child
+                            while temp_node != -1:
+                                path_from_node.append(temp_node)
+                                temp_node = parent_list[temp_node]
+                            while temp_child != -1:
+                                path_from_child.append(temp_child)
+                                temp_child = parent_list[temp_child]
+
+                            #meet point
+                            i= len(path_from_node) -1
+                            j = len(path_from_child) -1
+
+                            while i >= 0 and j >= 0 and path_from_node[i] == path_from_child[j]:
+                                i-=1
+                                j-=1
+                            cycle = path_from_node[:i +1] + path_from_child[j+1::-1]
+                            #readd the first value at the end so that the cycle is closed
+                            cycle.append(cycle[0])
+
+
     if False in visited :
         is_complete = False
-    return visited, is_complete, has_cycle
-
+    return visited, is_complete, cycle
 
 
 def is_degen(proposal):
@@ -304,13 +331,14 @@ def is_degen(proposal):
     V = len(proposal)+len(proposal[0])
 
     test = breadthfs(proposal)
-
-    if test[1] and not(test[2]) and E == V-1:
-        return 0
-    elif test[2]:
-        return 1  #has cycle
+    is_complete = test[1]
+    is_cycle = len(test[2])
+    if is_complete and is_cycle and E == V-1:
+        return False
+    elif not is_cycle:
+        return "cycle"  #has cycle
     elif E!= V-1:
-        return 2, E - (V-1)
+        return "degen", E - (V-1)
 
 def compute_potentials(cost_matrix, basic_cells_set):
     n = len(cost_matrix) # col
@@ -397,6 +425,20 @@ def compute_marginal_costs(cost_matrix, basic_cells_set, u, v):
                     #update then the cell so that the variables contain it 
 
     return marginal, best_cell, best_value
+
+
+
+
+def stepping_stone(cost_matrix, proposal):
+    degen = is_degen(proposal)
+    if degen == "cycle" :
+        pass
+
+
+
+
+
+
 
 
 def choose_problem_and_method():
