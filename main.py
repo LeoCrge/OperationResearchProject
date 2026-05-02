@@ -72,7 +72,7 @@ def display_transportation(proposal, cost_matrix=None, title="TRANSPORTATION PRO
     if cost_matrix is not None:
         print("Total Cost:", calculate_total_cost(proposal, cost_matrix))
 
-
+# type shit def just calculate the sum of every cell for proposal multiplied by initial one 
 def calculate_total_cost(proposal, cost_matrix):
     total_cost = 0
     for i in range(len(proposal)):
@@ -153,6 +153,23 @@ def get_basic_cells(proposal):
                 basic_cells.append((i, j))
     return basic_cells
 
+# rajout de cette fonction pour l'equation pour avoir n+m-1 = required 
+# fonction de merde 
+# dcp ca je dois l'avoir pour la partie proposal pour avoir un lien
+# 
+def fix_degeneracy(basic_cells_set, n, m):
+    required = n + m - 1 
+    # basic step
+    for i in range(n):
+        for j in range(m):
+            if len(basic_cells_set) >= required: #then this check if we already have a valid solution
+                return basic_cells_set
+            #if not 
+            if (i, j) not in basic_cells_set:
+                basic_cells_set.add((i, j))
+                # we implement a new cell with value 0 to have a link and have the proper implementation
+                print(f"Added cell at P{i+1}->C{j+1} to fix degeneracy")
+    return basic_cells_set
 
 def BalasHammer(cost_matrix, provisions, orders):
     """Balas-Hammer algorithm, """
@@ -252,7 +269,7 @@ def breadthfs(matrix):
 
         # If it's row node
         if node < n:
-            for j in range(n):
+            for j in range(m): #yes sir just m because you check every row but can miss one 
                 if matrix[node][j] != 0:
                     child = n + j  # column node
                     if not visited[child]:
@@ -295,7 +312,40 @@ def is_degen(proposal):
     elif E!= V-1:
         return 2, E - (V-1)
 
+def compute_potentials(cost_matrix, proposal):
+    n = len(cost_matrix) # col
+    m = len(cost_matrix[0]) # row
+ 
+    u = [None] * n  #initiate at 0
+    v = [None] * m  #initiate a 0 also since no value
 
+    u[0] = 0 #initiate u0 = 0 as a starting point 
+
+    changed = True
+    while changed:
+        changed = False
+
+        for (i, j) in basic_cells_set:    #fuck this code 
+            #thats were the magic oppear we have 
+            if u[i] is not None and v[j] is None:
+                
+                v[j] = cost_matrix[i][j] - u[i]
+                changed = True
+            elif v[j] is not None and u[i] is None:
+                u[i] = cost_matrix[i][j] - v[j]
+                changed = True
+    return u, v
+
+def display_potentials(u, v):
+    print("\nPOTENTIALS")
+
+    print("Rows")
+    for i in range(len(u)):
+        print(f"u{i + 1} = {u[i]}")
+
+    print("Cols")
+    for j in range(len(v)):
+        print(f"v{j + 1} = {v[j]}")
 
 
 def choose_problem_and_method():
@@ -309,9 +359,10 @@ if __name__ == "__main__":
     """ problem method initiated because we return the method and the problem
      the file will have as an argument the value return by method ChsePrblmMethod which is the user input 
      if we chose 6 the readfile takes 6 
-    path, n, m, cost_matrix, provisions, orders = readfile(problem)
+    
     so we need multiple initialization to get the return argument of the function that we implement hence the multiple argument initiated
     """
+    path, n, m, cost_matrix, provisions, orders = readfile(problem)
     print(f"\nLoaded file: {path}")
     print(f"Suppliers (n): {n}")
     print(f"Customers (m): {m}")
@@ -320,15 +371,27 @@ if __name__ == "__main__":
     display_cost_matrix(cost_matrix, provisions, orders)
 
     if method == "nw":
-        NorthWest(cost_matrix, provisions, orders)
+        proposal,total_cost = NorthWest(cost_matrix, provisions, orders)
     elif method == "bh":
-        BalasHammer(cost_matrix, provisions, orders)
+        proposal,total_cost = BalasHammer(cost_matrix, provisions, orders)
     else:
         print("Unknown method buddy")
         exit()
 
     basic_cells = get_basic_cells(proposal) 
+    basic_cells_set = set(basic_cells)
+
+
+    status = is_degen(proposal)
+
+    if status != 0:
+        print("Degenerate solution my boy there is a problem")
+        basic_cells_set = fix_degeneracy(basic_cells_set, n, m)
     #return the cells that are fulfilled after works of algo
+    
+
+    u, v = compute_potentials(cost_matrix, proposal)
+    display_potentials(u, v)
 
     print("\nBASIC CELLS")
     print([(f"P{i+1}", f"C{j+1}") for i, j in basic_cells])
