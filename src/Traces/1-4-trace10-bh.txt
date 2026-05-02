@@ -1,3 +1,15 @@
+Loaded file: src\Problems\Problem10.txt
+Suppliers (n): 3
+Customers (m): 7
+Total provisions = 3500 | Total orders = 3500
+
+COST MATRIX
+              C1      C2      C3      C4      C5      C6      C7 Provision
+P1           300      20      15      16      17      18      20       500
+P2             1      50      24      30      22      27      19       500
+P3            50      40      30       3      25      26       3      2500
+Orders       500     500     500     500     500     500     500
+
 ================ BALAS-HAMMER ALGORITHM ================
 
 --- Step 1 ---
@@ -88,3 +100,35 @@ P1             0     500       0       0       0       0       0
 P2           500       0       0       0       0       0       0
 P3             0       0     500     500     500     500     500
 Total Cost: 54000
+Degenerate solution my boy there is a problem
+Added cell at P1->C1 to fix degeneracy
+Added cell at P1->C3 to fix degeneracy
+
+============= STEPPING STONE: ITERATION 1 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3      C4      C5      C6      C7
+P1             -       -       -      28       7       7      32
+P2             -      30       9      42      12      16      31
+P3          -265       5       -       -       -       -       -
+
+Best improving edge: P3->C1 with marginal cost -265
+
+============= STEPPING STONE: ITERATION 2 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3      C4      C5      C6      C7
+P1           299       -       -      28       7       7      32
+P2             -      30       9      42      12      16      31
+P3             -       5       -       -       -       -       -
+
+>>> OPTIMAL SOLUTION FOUND. All marginal costs are >= 0
+
+FINAL OPTIMAL PROPOSAL
+              C1      C2      C3      C4      C5      C6      C7
+P1             0     500       0       0       0       0       0
+P2           500       0       0       0       0       0       0
+P3             0       0     500     500     500     500     500
+Total Cost: 54000
+
+Final Optimal Cost: 54000

@@ -1,3 +1,15 @@
+Loaded file: src\Problems\Problem6.txt
+Suppliers (n): 3
+Customers (m): 4
+Total provisions = 180 | Total orders = 180
+
+COST MATRIX
+              C1      C2      C3      C4 Provision
+P1            11      12      10      10        60
+P2            17      16      15      18        30
+P3            19      21      20      22        90
+Orders        50      75      30      25
+
 ================ BALAS-HAMMER ALGORITHM ================
 
 --- Step 1 ---
@@ -64,3 +76,46 @@ P1            35       0       0      25
 P2             0       0      30       0
 P3            15      75       0       0
 Total Cost: 2945
+Degenerate solution my boy there is a problem
+Added cell at P1->C3 to fix degeneracy
+
+============= STEPPING STONE: ITERATION 1 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3      C4
+P1             -      -1       -       -
+P2             6       3       -       8
+P3             -       -      -3       4
+
+Best improving edge: P3->C3 with marginal cost -3
+
+============= STEPPING STONE: ITERATION 2 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3      C4
+P1             -      -1      -5       -
+P2             6       3       -       8
+P3             -       -       -       4
+
+Best improving edge: P1->C3 with marginal cost -5
+
+============= STEPPING STONE: ITERATION 3 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3      C4
+P1             -      -1       -       -
+P2             6       3       -       8
+P3             -       -      -3       4
+
+Best improving edge: P3->C3 with marginal cost -3
+
+============= STEPPING STONE: ITERATION 4 =============
+
+FINAL OPTIMAL PROPOSAL
+              C1      C2      C3      C4
+P1            35       0       0      25
+P2             0       0      30       0
+P3            15      75       0       0
+Total Cost: 2945
+
+Final Optimal Cost: 2945

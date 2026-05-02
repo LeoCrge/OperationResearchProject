@@ -1,3 +1,19 @@
+Loaded file: src\Problems\Problem9.txt
+Suppliers (n): 7
+Customers (m): 3
+Total provisions = 700 | Total orders = 700
+
+COST MATRIX
+              C1      C2      C3 Provision
+P1            30      20      15       100
+P2            10      50       2       100
+P3             9      10      30       100
+P4             6       2      29       100
+P5            50      40       3       100
+P6             5      38      27       100
+P7            50       4      22       100
+Orders       400     200     100
+
 ================ BALAS-HAMMER ALGORITHM ================
 
 --- Step 1 ---
@@ -91,3 +107,47 @@ P5             0       0     100
 P6           100       0       0
 P7             0     100       0
 Total Cost: 5700
+Degenerate solution my boy there is a problem
+Added cell at P1->C1 to fix degeneracy
+Added cell at P1->C3 to fix degeneracy
+
+============= STEPPING STONE: ITERATION 1 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3
+P1             -       -       -
+P2             -      30     -13
+P3             -      11      36
+P4             -       6      38
+P5            32      32       -
+P6             -      43      37
+P7            36       -      23
+
+Best improving edge: P2->C3 with marginal cost -13
+
+============= STEPPING STONE: ITERATION 2 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3
+P1             -       -      13
+P2             -      30       -
+P3             -      11      49
+P4             -       6      51
+P5            19      19       -
+P6             -      43      50
+P7            36       -      36
+
+>>> OPTIMAL SOLUTION FOUND. All marginal costs are >= 0
+
+FINAL OPTIMAL PROPOSAL
+              C1      C2      C3
+P1             0     100       0
+P2           100       0       0
+P3           100       0       0
+P4           100       0       0
+P5             0       0     100
+P6           100       0       0
+P7             0     100       0
+Total Cost: 5700
+
+Final Optimal Cost: 5700

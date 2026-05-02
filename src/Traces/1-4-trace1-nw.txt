@@ -1,3 +1,14 @@
+Loaded file: src\Problems\Problem1.txt
+Suppliers (n): 2
+Customers (m): 2
+Total provisions = 200 | Total orders = 200
+
+COST MATRIX
+              C1      C2 Provision
+P1            30      20       100
+P2            10      50       100
+Orders       100     100
+
 ================ NORTH-WEST ALGORITHM ================
 Fill edge P1->C1: min(100, 100) = 100
 Fill edge P2->C2: min(100, 100) = 100
@@ -7,3 +18,31 @@ NORTH-WEST INITIAL PROPOSAL
 P1           100       0
 P2             0     100
 Total Cost: 8000
+Degenerate solution my boy there is a problem
+Added cell at P1->C2 to fix degeneracy
+
+============= STEPPING STONE: ITERATION 1 =============
+
+MARGINAL COSTS TABLE
+              C1      C2
+P1             -       -
+P2           -50       -
+
+Best improving edge: P2->C1 with marginal cost -50
+
+============= STEPPING STONE: ITERATION 2 =============
+
+MARGINAL COSTS TABLE
+              C1      C2
+P1            50       -
+P2             -       -
+
+>>> OPTIMAL SOLUTION FOUND. All marginal costs are >= 0
+
+FINAL OPTIMAL PROPOSAL
+              C1      C2
+P1             0     100
+P2           100       0
+Total Cost: 3000
+
+Final Optimal Cost: 3000

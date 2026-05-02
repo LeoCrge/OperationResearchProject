@@ -1,3 +1,15 @@
+Loaded file: src\Problems\Problem6.txt
+Suppliers (n): 3
+Customers (m): 4
+Total provisions = 180 | Total orders = 180
+
+COST MATRIX
+              C1      C2      C3      C4 Provision
+P1            11      12      10      10        60
+P2            17      16      15      18        30
+P3            19      21      20      22        90
+Orders        50      75      30      25
+
 ================ NORTH-WEST ALGORITHM ================
 Fill edge P1->C1: min(60, 50) = 50
 Fill edge P1->C2: min(10, 75) = 10
@@ -12,3 +24,63 @@ P1            50      10       0       0
 P2             0      30       0       0
 P3             0      35      30      25
 Total Cost: 3035
+Degenerate solution my boy there is a problem
+
+============= STEPPING STONE: ITERATION 1 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3      C4
+P1             -       -      -1      -3
+P2             2       -       0       1
+P3            -1       -       -       -
+
+Best improving edge: P1->C4 with marginal cost -3
+
+============= STEPPING STONE: ITERATION 2 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3      C4
+P1             -       3       2       -
+P2            -1       -       0       1
+P3            -4       -       -       -
+
+Best improving edge: P3->C1 with marginal cost -4
+
+============= STEPPING STONE: ITERATION 3 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3      C4
+P1             -      -1      -2       -
+P2             3       -       0       5
+P3             -       -       -       4
+
+Best improving edge: P1->C3 with marginal cost -2
+
+============= STEPPING STONE: ITERATION 4 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3      C4
+P1             -      -1       -       -
+P2             3       -       2       5
+P3             -       -       2       4
+
+Best improving edge: P1->C2 with marginal cost -1
+
+============= STEPPING STONE: ITERATION 5 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3      C4
+P1             1       -       -       -
+P2             3       -       1       4
+P3             -       -       1       3
+
+>>> OPTIMAL SOLUTION FOUND. All marginal costs are >= 0
+
+FINAL OPTIMAL PROPOSAL
+              C1      C2      C3      C4
+P1             0       5      30      25
+P2             0      30       0       0
+P3            50      40       0       0
+Total Cost: 2880
+
+Final Optimal Cost: 2880

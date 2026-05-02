@@ -1,3 +1,14 @@
+Loaded file: src\Problems\Problem1.txt
+Suppliers (n): 2
+Customers (m): 2
+Total provisions = 200 | Total orders = 200
+
+COST MATRIX
+              C1      C2 Provision
+P1            30      20       100
+P2            10      50       100
+Orders       100     100
+
 ================ BALAS-HAMMER ALGORITHM ================
 
 --- Step 1 ---
@@ -30,3 +41,22 @@ BALAS-HAMMER INITIAL PROPOSAL
 P1             0     100
 P2           100       0
 Total Cost: 3000
+Degenerate solution my boy there is a problem
+Added cell at P1->C1 to fix degeneracy
+
+============= STEPPING STONE: ITERATION 1 =============
+
+MARGINAL COSTS TABLE
+              C1      C2
+P1             -       -
+P2             -      50
+
+>>> OPTIMAL SOLUTION FOUND. All marginal costs are >= 0
+
+FINAL OPTIMAL PROPOSAL
+              C1      C2
+P1             0     100
+P2           100       0
+Total Cost: 3000
+
+Final Optimal Cost: 3000

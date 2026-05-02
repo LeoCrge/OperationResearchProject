@@ -159,7 +159,13 @@ def get_basic_cells(proposal):
 # dcp ca je dois l'avoir pour la partie proposal pour avoir un lien
 # 
 def fix_degeneracy(basic_cells_set, n, m):
-    required = n + m - 1 
+    required = n + m - 1
+    if len(basic_cells_set) >= required:
+        return basic_cells_set
+
+    fake_matrix = [[0 for _ in range(m)] for _ in range(n)]
+    for (r,c) in basic_cells_set:
+        fake_matrix[r][c] = 1
     # basic step
     for i in range(n):
         for j in range(m):
@@ -167,9 +173,14 @@ def fix_degeneracy(basic_cells_set, n, m):
                 return basic_cells_set
             #if not 
             if (i, j) not in basic_cells_set:
-                basic_cells_set.add((i, j))
+                fake_matrix[i][j] = 1
+                _ ,_ , test_cycle = breadthfs(fake_matrix, start_node=i)
                 # we implement a new cell with value 0 to have a link and have the proper implementation
-                print(f"Added cell at P{i+1}->C{j+1} to fix degeneracy")
+                if not test_cycle:
+                    basic_cells_set.add((i, j))
+                    print(f"Added cell at P{i+1}->C{j+1} to fix degeneracy")
+                else:
+                    fake_matrix[i][j] = 0
     return basic_cells_set
 
 def BalasHammer(cost_matrix, provisions, orders):
@@ -245,20 +256,18 @@ def BalasHammer(cost_matrix, provisions, orders):
     return proposal, total_cost
 
 
-
-def breadthfs(matrix):
+def breadthfs(matrix, start_node=0):
     n = len(matrix)
     m = len(matrix[0])
-    # total nodes: rows + columns
     total_nodes = n + m
     has_cycle = False
     is_complete = True
     visited = [False] * total_nodes
     queue = deque()
-    visited[0] = True
-    queue.append((0,-1))
-    parent_list = [-1]*total_nodes
-    cycle=[]
+    visited[start_node] = True
+    queue.append((start_node, -1))
+    parent_list = [-1] * total_nodes
+    cycle = []
     while queue:
         node, parent = queue.popleft()
 
@@ -349,19 +358,24 @@ def compute_potentials(cost_matrix, basic_cells_set):
 
     u[0] = 0 #initiate u0 = 0 as a starting point 
 
-    changed = True
-    while changed:
-        changed = False
+    while None in u or None in v:
+        for i in range(n):
+            if u[i] is None:
+                u[i] = 0
+                break
+        changed = True
+        while changed:
+            changed = False
 
-        for (i, j) in basic_cells_set:    #fuck this code 
-            #thats were the magic oppear we have 
-            if u[i] is not None and v[j] is None:
-                
-                v[j] = cost_matrix[i][j] - u[i]
-                changed = True
-            elif v[j] is not None and u[i] is None:
-                u[i] = cost_matrix[i][j] - v[j]
-                changed = True
+            for (i, j) in basic_cells_set:    #fuck this code
+                #thats were the magic oppear we have
+                if u[i] is not None and v[j] is None:
+
+                    v[j] = cost_matrix[i][j] - u[i]
+                    changed = True
+                elif v[j] is not None and u[i] is None:
+                    u[i] = cost_matrix[i][j] - v[j]
+                    changed = True
     return u, v
 
 def display_potentials(u, v):
@@ -442,9 +456,13 @@ def from_node_to_matrix(cycle, n): #n the number of provisions
         cells.append((i, j))
     return cells
 
-def fix_cycles(proposal, cycle, n, basic_cells_set):
+def fix_cycles(proposal, cycle_nodes, n, basic_cells_set, best_cell):
 
-    cycle = from_node_to_matrix(cycle, n)
+    cycle = from_node_to_matrix(cycle_nodes, n)
+
+    if best_cell in cycle:
+        index = cycle.index(best_cell)
+        cycle = cycle[index:] + cycle[:index]
     delta = min(proposal[i][j] for k, (i, j) in enumerate(cycle) if k % 2 == 1)
 
     for k, (i, j) in enumerate(cycle):
@@ -460,12 +478,60 @@ def fix_cycles(proposal, cycle, n, basic_cells_set):
             basic_cells_set.remove((i, j))
             break
 
-    basic_cells_set.add(cycle[0])
 
     return proposal, basic_cells_set
 
 
+def stepping_stone(cost_matrix, proposal, basic_cells_set, n, m):
+    iteration = 1
+    while True:
+        print(f"\n============= STEPPING STONE: ITERATION {iteration} =============")
+        if iteration > 3:
+            break
+        # 1. Degeneracy Fix (Using the set)
+        if len(basic_cells_set) < n + m - 1:
+            basic_cells_set = fix_degeneracy(basic_cells_set, n, m)
 
+        u, v = compute_potentials(cost_matrix, basic_cells_set)
+
+        marginal_costs, best_cell, best_value = compute_marginal_costs(cost_matrix, basic_cells_set, u, v)
+        display_matrix(marginal_costs, "MARGINAL COSTS TABLE")
+
+        if best_cell is None:
+            print("\n>>> OPTIMAL SOLUTION FOUND. All marginal costs are >= 0")
+            break
+
+        print(f"\nBest improving edge: P{best_cell[0] + 1}->C{best_cell[1] + 1} with marginal cost {best_value}")
+
+        # 5. Cycle Detection (The BFS Trick)
+        proposal[best_cell[0]][best_cell[1]] = -1
+
+        cells_to_reset = []
+        for (i, j) in basic_cells_set:
+            if proposal[i][j] == 0 and (i, j) != best_cell:
+                proposal[i][j] = -1
+                cells_to_reset.append((i, j))
+
+        _, _, cycle_nodes = breadthfs(proposal, start_node=best_cell[0])
+
+        proposal[best_cell[0]][best_cell[1]] = 0
+        for (i, j) in cells_to_reset:
+            proposal[i][j] = 0
+
+        if not cycle_nodes:
+            basic_cells_set.add(best_cell)
+            for (i, j) in cells_to_reset:
+                if (i,j) !=best_cell:
+                    basic_cells_set.remove((i, j))
+                    break
+
+        basic_cells_set.add(best_cell)
+
+        proposal, basic_cells_set = fix_cycles(proposal, cycle_nodes, n, basic_cells_set, best_cell)
+
+        iteration += 1
+
+    return proposal, basic_cells_set
 
 
 
@@ -509,42 +575,12 @@ if __name__ == "__main__":
         print("Degenerate solution my boy there is a problem")
         basic_cells_set = fix_degeneracy(basic_cells_set, n, m)
     #return the cells that are fulfilled after works of algo
-    
+    # Run the Master Loop!
+    final_proposal, final_basic_cells = stepping_stone(cost_matrix, proposal, basic_cells_set, n, m)
 
-    u, v = compute_potentials(cost_matrix, basic_cells_set)
-    display_potentials(u, v)
+    # Display the final, optimized results
+    final_cost = calculate_total_cost(final_proposal, cost_matrix)
+    display_transportation(final_proposal, cost_matrix, "FINAL OPTIMAL PROPOSAL")
+    print(f"\nFinal Optimal Cost: {final_cost}")
 
-    potential_costs = compute_potential_costs(u, v)
-    display_matrix(potential_costs, "POTENTIAL COSTS TABLE")
 
-    marginal_costs, best_cell, best_value = compute_marginal_costs(
-        cost_matrix, basic_cells_set, u, v
-    )
-    display_matrix(marginal_costs, "MARGINAL COSTS TABLE")
-
-    if best_cell is None:
-        # here we pray its None
-        # common lets pray together
-
-        print("\nAll marginal costs >= 0 optimized i guess ???? it worked ????")
-    else:
-        #sight here we go again
-        print(
-            f"\nBest improving edge: P{best_cell[0]+1}->C{best_cell[1]+1} "
-            f"with marginal cost {best_value}"
-        )
-
-    print("\nBASIC CELLS")
-    print([(f"P{i+1}", f"C{j+1}") for i, j in basic_cells])
-
-    expected = n + m - 1 
-
-    print(f"Number of basic cells: {len(basic_cells)}")
-    print(f"Expected number for a valid base: n + m - 1 = {n} + {m} - 1 = {expected}")
-
-    if len(basic_cells) == expected:
-        print("correct number of basic cells.")
-    elif len(basic_cells) < expected:
-        print("Degenerate solution")
-    else:
-        print("too many basic cells, possible cycle.")

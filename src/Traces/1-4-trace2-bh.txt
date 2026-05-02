@@ -1,32 +1,63 @@
+Loaded file: src\Problems\Problem2.txt
+Suppliers (n): 2
+Customers (m): 2
+Total provisions = 200 | Total orders = 200
+
+COST MATRIX
+              C1      C2 Provision
+P1            10      20       100
+P2            30      10       100
+Orders       100     100
+
 ================ BALAS-HAMMER ALGORITHM ================
 
 --- Step 1 ---
 
 Penalties:
-Rows   : P1=10  P2=40
-Columns: C1=20  C2=30
-Maximum penalty: 40
+Rows   : P1=10  P2=20
+Columns: C1=20  C2=10
+Maximum penalty: 20
 Rows with maximum penalty: P2
-Chosen line: P2; cheapest edge is P2->C1 with cost 10
-Fill edge P2->C1: min(100, 100) = 100
-P2 is satisfied and removed.
+Columns with maximum penalty: C1
+Chosen column: C1; cheapest edge is P1->C1 with cost 10
+Fill edge P1->C1: min(100, 100) = 100
+P1 is satisfied and removed.
 C1 is satisfied and removed.
 
 --- Step 2 ---
 
 Penalties:
-Rows   : P1=0
+Rows   : P2=0
 Columns: C2=0
 Maximum penalty: 0
-Rows with maximum penalty: P1
+Rows with maximum penalty: P2
 Columns with maximum penalty: C2
-Chosen column: C2; cheapest edge is P1->C2 with cost 20
-Fill edge P1->C2: min(100, 100) = 100
-P1 is satisfied and removed.
+Chosen column: C2; cheapest edge is P2->C2 with cost 10
+Fill edge P2->C2: min(100, 100) = 100
+P2 is satisfied and removed.
 C2 is satisfied and removed.
 
 BALAS-HAMMER INITIAL PROPOSAL
               C1      C2
-P1             0     100
-P2           100       0
-Total Cost: 3000
+P1           100       0
+P2             0     100
+Total Cost: 2000
+Degenerate solution my boy there is a problem
+Added cell at P1->C2 to fix degeneracy
+
+============= STEPPING STONE: ITERATION 1 =============
+
+MARGINAL COSTS TABLE
+              C1      C2
+P1             -       -
+P2            20       -
+
+>>> OPTIMAL SOLUTION FOUND. All marginal costs are >= 0
+
+FINAL OPTIMAL PROPOSAL
+              C1      C2
+P1           100       0
+P2             0     100
+Total Cost: 2000
+
+Final Optimal Cost: 2000

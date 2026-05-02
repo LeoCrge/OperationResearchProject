@@ -1,3 +1,19 @@
+Loaded file: src\Problems\Problem9.txt
+Suppliers (n): 7
+Customers (m): 3
+Total provisions = 700 | Total orders = 700
+
+COST MATRIX
+              C1      C2      C3 Provision
+P1            30      20      15       100
+P2            10      50       2       100
+P3             9      10      30       100
+P4             6       2      29       100
+P5            50      40       3       100
+P6             5      38      27       100
+P7            50       4      22       100
+Orders       400     200     100
+
 ================ NORTH-WEST ALGORITHM ================
 Fill edge P1->C1: min(100, 400) = 100
 Fill edge P2->C1: min(100, 300) = 100
@@ -17,3 +33,103 @@ P5             0     100       0
 P6             0     100       0
 P7             0       0     100
 Total Cost: 15500
+Degenerate solution my boy there is a problem
+Added cell at P1->C2 to fix degeneracy
+Added cell at P1->C3 to fix degeneracy
+
+============= STEPPING STONE: ITERATION 1 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3
+P1             -       -       -
+P2             -      50       7
+P3             -      11      36
+P4             -       6      38
+P5             0       -     -32
+P6           -43       -      -6
+P7            13     -23       -
+
+Best improving edge: P6->C1 with marginal cost -43
+
+============= STEPPING STONE: ITERATION 2 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3
+P1            43       -       -
+P2             -       7     -36
+P3             -     -32      -7
+P4             -     -37      -5
+P5            43       -     -32
+P6             -       -      -6
+P7            56     -23       -
+
+Best improving edge: P4->C2 with marginal cost -37
+
+============= STEPPING STONE: ITERATION 3 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3
+P1             6       -       -
+P2             -      44       1
+P3             -       5      30
+P4             -       -      32
+P5             6       -     -32
+P6             -      37      31
+P7            19     -23       -
+
+Best improving edge: P5->C3 with marginal cost -32
+
+============= STEPPING STONE: ITERATION 4 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3
+P1             6       -      32
+P2             -      44      33
+P3             -       5      62
+P4             -       -      64
+P5             6       -       -
+P6             -      37      63
+P7           -13     -55       -
+
+Best improving edge: P7->C2 with marginal cost -55
+
+============= STEPPING STONE: ITERATION 5 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3
+P1             6       -     -23
+P2             -      44     -22
+P3             -       5       7
+P4             -       -       9
+P5            61      55       -
+P6             -      37       8
+P7            42       -       -
+
+Best improving edge: P1->C3 with marginal cost -23
+
+============= STEPPING STONE: ITERATION 6 =============
+
+MARGINAL COSTS TABLE
+              C1      C2      C3
+P1             6       -       -
+P2             -      44       1
+P3             -       5      30
+P4             -       -      32
+P5            38      32       -
+P6             -      37      31
+P7            42       -      23
+
+>>> OPTIMAL SOLUTION FOUND. All marginal costs are >= 0
+
+FINAL OPTIMAL PROPOSAL
+              C1      C2      C3
+P1             0     100       0
+P2           100       0       0
+P3           100       0       0
+P4           100       0       0
+P5             0       0     100
+P6           100       0       0
+P7             0     100       0
+Total Cost: 5700
+
+Final Optimal Cost: 5700
