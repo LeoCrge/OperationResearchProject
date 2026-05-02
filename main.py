@@ -335,7 +335,7 @@ def is_degen(proposal):
     is_cycle = len(test[2])
     if is_complete and is_cycle and E == V-1:
         return False
-    elif not is_cycle:
+    elif is_cycle:
         return "cycle"  #has cycle
     elif E!= V-1:
         return "degen", E - (V-1)
@@ -426,15 +426,43 @@ def compute_marginal_costs(cost_matrix, basic_cells_set, u, v):
 
     return marginal, best_cell, best_value
 
+#Because I care about my sanity we will convert the nodes in the cycle to real matrix input
+def from_node_to_matrix(cycle, n): #n the number of provisions
+    cells = []
 
+    for k in range(len(cycle)-1):
+        a =cycle[k]
+        b =cycle[k+1]
+        if a < n: # row to column
+            i = a
+            j = b - n
+        else:
+            i = b
+            j = a - n
+        cells.append((i, j))
+    return cells
 
+def fix_cycles(proposal, cycle, n, basic_cells_set):
 
-def stepping_stone(cost_matrix, proposal):
-    degen = is_degen(proposal)
-    if degen == "cycle" :
-        pass
+    cycle = from_node_to_matrix(cycle, n)
+    delta = min(proposal[i][j] for k, (i, j) in enumerate(cycle) if k % 2 == 1)
 
+    for k, (i, j) in enumerate(cycle):
+        if k % 2 == 0:
+            proposal[i][j] += delta
+        else:
+            proposal[i][j] -= delta
 
+    # remove the variable (first zero in - position)
+    for k in range(1, len(cycle), 2):
+        i, j = cycle[k]
+        if proposal[i][j] == 0:
+            basic_cells_set.remove((i, j))
+            break
+
+    basic_cells_set.add(cycle[0])
+
+    return proposal, basic_cells_set
 
 
 
