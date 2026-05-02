@@ -48,14 +48,14 @@ def display_cost_matrix(cost_matrix, provisions, orders):
     for i in range(n):
         row = f"P{i+1}".ljust(width)
         row += "".join(format_value(cost_matrix[i][j], width) for j in range(m))
-        // iterate through each [j] in the list [i] so for the row check every elem
+        # iterate through each [j] in the list [i] so for the row check every elem
         row += format_value(provisions[i], width + 2)
-        //lastly print the provisions which is the last elem that was previously obtained when reading the files
+        #lastly print the provisions which is the last elem that was previously obtained when reading the files
         print(row)
-        //finish printing it 
+        #finish printing it 
     print("Orders".ljust(width) + "".join(format_value(orders[j], width) for j in range(m)))
 
-// later part when user ask either bh or nw
+# later part when user ask either bh or nw
 def display_transportation(proposal, cost_matrix=None, title="TRANSPORTATION PROPOSAL"):
     """Display a transportation proposal. If cost_matrix is provided, also show total cost."""
     n = len(proposal)
@@ -126,9 +126,9 @@ def compute_penalties(cost_matrix, active_rows, active_cols):
     for i in active_rows:
         costs = [cost_matrix[i][j] for j in active_cols]
         smallest, second_smallest = two_smallest(costs)
-        // redundance why did i implement it before hand to calculate the row penalty directly there
-        // i should have ? maybe implement it in it ?
-        // have to see that later on 
+        # redundance why did i implement it before hand to calculate the row penalty directly there
+        # i should have ? maybe implement it in it ?
+        # have to see that later on 
         row_penalties[i] = second_smallest - smallest
 
     for j in active_cols:
