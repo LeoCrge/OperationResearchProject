@@ -227,6 +227,77 @@ def BalasHammer(cost_matrix, provisions, orders):
     return proposal, total_cost
 
 
+
+def breadthfs(matrix):
+    n = len(matrix)
+    m = len(matrix[0])
+    # total nodes: rows + columns
+    total_nodes = n + m
+    has_cycle = False
+    is_complete = True
+    visited = [False] * total_nodes
+    queue = deque()
+    visited[0] = True
+    queue.append((0,-1))
+
+    while queue:
+        node, parent = queue.popleft()
+
+        """ Print node
+        if node < m:
+            print(f"R{node}", end=" ")
+        else:
+            print(f"C{node - m}", end=" ")
+        """
+
+        # If it's row node
+        if node < n:
+            for j in range(n):
+                if matrix[node][j] != 0:
+                    child = n + j  # column node
+                    if not visited[child]:
+                        visited[child] = True
+                        queue.append((child, node))
+                    elif child !=parent:
+                        has_cycle = True
+
+        # If it's column node
+        else:
+            col = node - n
+            for i in range(n):
+                if matrix[i][col] != 0:
+                    child = i  # row node
+                    if not visited[child]:
+                        visited[child] = True
+                        queue.append((child, node))
+                    elif child !=parent:
+                        has_cycle = True
+    if False in visited :
+        is_complete = False
+    return visited, is_complete, has_cycle
+
+
+
+def is_degen(proposal):
+    E=0
+    for i in proposal:
+        for j in i:
+            if j > 0 :
+                E+=1
+    V = len(proposal)+len(proposal[0])
+
+    test = breadthfs(proposal)
+
+    if test[1] and not(test[2]) and E == V-1:
+        return 0
+    elif test[2]:
+        return 1  #has cycle
+    elif E!= V-1:
+        return 2, E - (V-1)
+
+
+
+
 def choose_problem_and_method():
     problem = input("Choose problem number (1-12): ").strip()
     method = input("Choose initial method (nw/bh): ").strip().lower()
