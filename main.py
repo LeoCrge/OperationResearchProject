@@ -423,13 +423,13 @@ if __name__ == "__main__":
 
     if method == "nw":
         proposal,total_cost = NorthWest(cost_matrix, provisions, orders)
-    elif method == "bh":    
+    elif method == "bh":
         proposal,total_cost = BalasHammer(cost_matrix, provisions, orders)
     else:
         print("Unknown method buddy your not a hacker trust me")
         exit()
 
-    basic_cells = get_basic_cells(proposal) 
+    basic_cells = get_basic_cells(proposal)
     basic_cells_set = set(basic_cells)
 
 
@@ -439,7 +439,7 @@ if __name__ == "__main__":
         print("Degenerate solution my boy there is a problem")
         basic_cells_set = fix_degeneracy(basic_cells_set, n, m)
     #return the cells that are fulfilled after works of algo
-    
+
 
     u, v = compute_potentials(cost_matrix, basic_cells_set)
     display_potentials(u, v)
@@ -467,7 +467,7 @@ if __name__ == "__main__":
     print("\nBASIC CELLS")
     print([(f"P{i+1}", f"C{j+1}") for i, j in basic_cells])
 
-    expected = n + m - 1 
+    expected = n + m - 1
 
     print(f"Number of basic cells: {len(basic_cells)}")
     print(f"Expected number for a valid base: n + m - 1 = {n} + {m} - 1 = {expected}")
