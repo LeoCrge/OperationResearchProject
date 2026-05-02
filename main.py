@@ -312,7 +312,7 @@ def is_degen(proposal):
     elif E!= V-1:
         return 2, E - (V-1)
 
-def compute_potentials(cost_matrix, proposal):
+def compute_potentials(cost_matrix, basic_cells_set):
     n = len(cost_matrix) # col
     m = len(cost_matrix[0]) # row
  
@@ -348,6 +348,57 @@ def display_potentials(u, v):
         print(f"v{j + 1} = {v[j]}")
 
 
+def display_matrix(matrix, title):
+    n = len(matrix)
+    m = len(matrix[0]) if n else 0
+    width = 8
+
+    print(f"\n{title}")
+    print("".ljust(width) + "".join(f"C{j+1}".rjust(width) for j in range(m)))
+
+    for i in range(n):
+        row = f"P{i+1}".ljust(width)
+        row += "".join(format_value(matrix[i][j], width) for j in range(m))
+        print(row)
+
+def compute_potential_costs(u, v):
+    n = len(u)
+    m = len(v)
+    
+    # for every cell (i,j), compute u[i] + v[j]
+    potential_costs = []
+    
+    for i in range(n):
+        row = []
+        for j in range(m):
+            row.append(u[i] + v[j])
+        potential_costs.append(row)
+    
+    return potential_costs
+
+def compute_marginal_costs(cost_matrix, basic_cells_set, u, v):
+    n = len(cost_matrix)
+    m = len(cost_matrix[0])
+    # marginal[i][j]  None for basic cells
+    # marginal[i][j] = cost[i][j] - (u[i] + v[j]) for non-basic cells
+    marginal = [[None for _ in range(m)] for _ in range(n)]
+
+    best_cell = None
+    best_value = 0
+
+    for i in range(n):
+        for j in range(m):
+            if (i, j) not in basic_cells_set:
+                marginal[i][j] = cost_matrix[i][j] - (u[i] + v[j])
+                # return the best value the minimum one which is negative to add it to it 
+                if marginal[i][j] < best_value:
+                    best_value = marginal[i][j]
+                    best_cell = (i, j)
+                    #update then the cell so that the variables contain it 
+
+    return marginal, best_cell, best_value
+
+
 def choose_problem_and_method():
     problem = input("Choose problem number (1-12): ").strip()
     method = input("Choose initial method (nw/bh): ").strip().lower()
@@ -372,10 +423,10 @@ if __name__ == "__main__":
 
     if method == "nw":
         proposal,total_cost = NorthWest(cost_matrix, provisions, orders)
-    elif method == "bh":
+    elif method == "bh":    
         proposal,total_cost = BalasHammer(cost_matrix, provisions, orders)
     else:
-        print("Unknown method buddy")
+        print("Unknown method buddy your not a hacker trust me")
         exit()
 
     basic_cells = get_basic_cells(proposal) 
@@ -390,8 +441,28 @@ if __name__ == "__main__":
     #return the cells that are fulfilled after works of algo
     
 
-    u, v = compute_potentials(cost_matrix, proposal)
+    u, v = compute_potentials(cost_matrix, basic_cells_set)
     display_potentials(u, v)
+
+    potential_costs = compute_potential_costs(u, v)
+    display_matrix(potential_costs, "POTENTIAL COSTS TABLE")
+
+    marginal_costs, best_cell, best_value = compute_marginal_costs(
+        cost_matrix, basic_cells_set, u, v
+    )
+    display_matrix(marginal_costs, "MARGINAL COSTS TABLE")
+
+    if best_cell is None:
+        # here we pray its None
+        # common lets pray together
+
+        print("\nAll marginal costs >= 0 optimized i guess ???? it worked ????")
+    else:
+        #sight here we go again
+        print(
+            f"\nBest improving edge: P{best_cell[0]+1}->C{best_cell[1]+1} "
+            f"with marginal cost {best_value}"
+        )
 
     print("\nBASIC CELLS")
     print([(f"P{i+1}", f"C{j+1}") for i, j in basic_cells])
